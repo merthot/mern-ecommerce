@@ -49,14 +49,13 @@ npm run dev
 3. Frontend kurulumu
 ```bash
 cd frontend
-cp .env.example .env  # .env dosyasını oluşturun ve gerekli değişkenleri ayarlayın
 npm install
 npm start
 ```
 
 ## Ortam Değişkenleri
 
-Projeyi çalıştırmadan önce gerekli ortam değişkenlerini ayarlamanız gerekmektedir. Backend ve frontend klasörlerindeki `.env.example` dosyalarını `.env` olarak kopyalayın ve değerleri kendi yapılandırmanıza göre güncelleyin.
+Projeyi çalıştırmadan önce gerekli ortam değişkenlerini ayarlamanız gerekmektedir. Backend klasöründeki `.env.example` dosyasını `.env` olarak kopyalayın ve değerleri kendi yapılandırmanıza göre güncelleyin.
 
 ## Lisans
 
