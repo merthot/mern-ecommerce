@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'https://mern-ecommerce-backend-gb9t.onrender.com',
+    baseUrl: 'https://mern-ecommerce-backend-gb9t.onrender.com/api',
     credentials: 'include',
     prepareHeaders: (headers) => {
         headers.set('Content-Type', 'application/json');
