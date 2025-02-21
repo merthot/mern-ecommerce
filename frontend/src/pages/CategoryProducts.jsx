@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 
 const CategoryProducts = () => {
     const { category, subcategory, type } = useParams();
-    const { data, isLoading, error, refetch } = useGetProductsQuery();
+    const { data, isLoading, error } = useGetProductsQuery();
     const { data: favoritesData } = useGetFavoritesQuery(undefined, {
         skip: !useSelector((state) => state.auth.userInfo)
     });
@@ -385,11 +385,11 @@ const CategoryProducts = () => {
                         <p className="text-gray-500">Bu kategoride ürün bulunamadı.</p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-4 gap-y-12">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 lg:gap-y-12 lg:p-0">
                         {sortedProducts.map(product => (
                             <div key={product._id} className="group relative">
                                 <Link to={`/product/${product._id}`}>
-                                    <div className="aspect-[3/4] w-full overflow-hidden bg-gray-200">
+                                    <div className="aspect-[3/4] w-full overflow-hidden bg-gray-200 lg:rounded-none">
                                         <img
                                             src={product.images[0]}
                                             alt={product.name}
@@ -413,31 +413,31 @@ const CategoryProducts = () => {
                                     className="absolute top-2 right-2 p-2 z-10 transition-colors duration-200 rounded-full hover:bg-white/10"
                                 >
                                     {product.isFavorited ? (
-                                        <HeartIconSolid className="w-6 h-6 text-red-600 drop-shadow-sm" />
+                                        <HeartIconSolid className="w-5 h-5 lg:w-6 lg:h-6 text-red-600 drop-shadow-sm" />
                                     ) : (
-                                        <HeartIcon className="w-6 h-6 text-white hover:text-red-600 drop-shadow-sm transition-colors" />
+                                        <HeartIcon className="w-5 h-5 lg:w-6 lg:h-6 text-white hover:text-red-600 drop-shadow-sm transition-colors" />
                                     )}
                                 </button>
-                                <div className="mt-4">
-                                    <h3 className="text-sm text-gray-700 px-4">
+                                <div className="mt-2 lg:mt-4">
+                                    <h3 className="text-xs lg:text-sm text-gray-700 px-1 lg:px-4 line-clamp-2 lg:line-clamp-none">
                                         <Link to={`/product/${product._id}`}>
                                             {product.name}
                                         </Link>
                                     </h3>
-                                    <div className="mt-1 px-4">
+                                    <div className="mt-1 px-1 lg:px-4">
                                         {hasActiveDiscount(product) ? (
                                             <>
-                                                <div className="flex items-center gap-2">
-                                                    <span className="text-sm font-medium text-red-600">
+                                                <div className="flex items-center gap-1 lg:gap-2">
+                                                    <span className="text-xs lg:text-sm font-medium text-red-600">
                                                         {getDiscountedPrice(product).toLocaleString('tr-TR', { maximumFractionDigits: 0 })} TL
                                                     </span>
-                                                    <span className="text-sm text-gray-500 line-through">
+                                                    <span className="text-xs lg:text-sm text-gray-500 line-through">
                                                         {product.price.toLocaleString('tr-TR', { maximumFractionDigits: 0 })} TL
                                                     </span>
                                                 </div>
                                             </>
                                         ) : (
-                                            <p className="text-sm font-medium text-gray-900">
+                                            <p className="text-xs lg:text-sm font-medium text-gray-900">
                                                 {product.price.toLocaleString('tr-TR', { maximumFractionDigits: 0 })} TL
                                             </p>
                                         )}

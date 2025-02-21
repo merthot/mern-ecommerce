@@ -21,17 +21,17 @@ const Footer = () => {
                         <h4 className="text-lg font-semibold text-gray-900">Kurumsal</h4>
                         <ul className="space-y-2">
                             <li>
-                                <Link to="/hakkimizda" className="text-gray-600 hover:text-gray-900 transition-colors">
+                                <Link className="text-gray-600 hover:text-gray-900 transition-colors">
                                     Hakkımızda
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/kariyer" className="text-gray-600 hover:text-gray-900 transition-colors">
+                                <Link className="text-gray-600 hover:text-gray-900 transition-colors">
                                     Kariyer
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/magazalarimiz" className="text-gray-600 hover:text-gray-900 transition-colors">
+                                <Link className="text-gray-600 hover:text-gray-900 transition-colors">
                                     Mağazalarımız
                                 </Link>
                             </li>
@@ -43,22 +43,22 @@ const Footer = () => {
                         <h4 className="text-lg font-semibold text-gray-900">Yardım</h4>
                         <ul className="space-y-2">
                             <li>
-                                <Link to="/sss" className="text-gray-600 hover:text-gray-900 transition-colors">
+                                <Link className="text-gray-600 hover:text-gray-900 transition-colors">
                                     Sıkça Sorulan Sorular
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/kargo-takip" className="text-gray-600 hover:text-gray-900 transition-colors">
+                                <Link className="text-gray-600 hover:text-gray-900 transition-colors">
                                     Kargo Takip
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/iade-kosullari" className="text-gray-600 hover:text-gray-900 transition-colors">
+                                <Link className="text-gray-600 hover:text-gray-900 transition-colors">
                                     İade Koşulları
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/gizlilik" className="text-gray-600 hover:text-gray-900 transition-colors">
+                                <Link className="text-gray-600 hover:text-gray-900 transition-colors">
                                     Gizlilik Politikası
                                 </Link>
                             </li>
@@ -70,17 +70,17 @@ const Footer = () => {
                         <h4 className="text-lg font-semibold text-gray-900">Kategoriler</h4>
                         <ul className="space-y-2">
                             <li>
-                                <Link to="/category/kadin" className="text-gray-600 hover:text-gray-900 transition-colors">
+                                <Link to="/kadin/giyim/elbise" className="text-gray-600 hover:text-gray-900 transition-colors">
                                     Kadın
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/category/erkek" className="text-gray-600 hover:text-gray-900 transition-colors">
+                                <Link to="/erkek/giyim/gomlek" className="text-gray-600 hover:text-gray-900 transition-colors">
                                     Erkek
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/category/cocuk" className="text-gray-600 hover:text-gray-900 transition-colors">
+                                <Link to="/cocuk/giyim/tisort" className="text-gray-600 hover:text-gray-900 transition-colors">
                                     Çocuk
                                 </Link>
                             </li>
@@ -113,21 +113,21 @@ const Footer = () => {
                 <div className="max-w-7xl mx-auto px-4 py-6">
                     <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
                         <motion.div {...fadeIn} className="flex space-x-6">
-                            <a href="#" className="text-gray-400 hover:text-gray-600 transition-colors">
+                            <a href="" className="text-gray-400 hover:text-gray-600 transition-colors">
                                 <span className="sr-only">Facebook</span>
                                 <FaFacebook className="h-6 w-6" />
                             </a>
-                            <a href="#" className="text-gray-400 hover:text-gray-600 transition-colors">
+                            <a href="" className="text-gray-400 hover:text-gray-600 transition-colors">
                                 <span className="sr-only">Instagram</span>
                                 <FaInstagram className="h-6 w-6" />
                             </a>
-                            <a href="#" className="text-gray-400 hover:text-gray-600 transition-colors">
+                            <a href="" className="text-gray-400 hover:text-gray-600 transition-colors">
                                 <span className="sr-only">Twitter</span>
                                 <FaTwitter className="h-6 w-6" />
                             </a>
                         </motion.div>
                         <motion.div {...fadeIn} className="text-gray-500 text-sm">
-                            © 2024 Tüm hakları saklıdır.
+                            © 2025 Tüm hakları saklıdır.
                         </motion.div>
                     </div>
                 </div>

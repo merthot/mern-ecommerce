@@ -1,6 +1,6 @@
 import { Fragment, useState, useRef, useEffect } from 'react';
 import { Transition, Menu } from '@headlessui/react';
-import { XMarkIcon, HeartIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon, HeartIcon, Bars3Icon } from '@heroicons/react/24/outline';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLogoutMutation } from '../../store/api/userApiSlice';
@@ -14,6 +14,8 @@ const Header = () => {
     const [showCart, setShowCart] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [activeMenu, setActiveMenu] = useState(null);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [activeMobileCategory, setActiveMobileCategory] = useState(null);
     const cartItems = useSelector(state => state.cart.cartItems);
     const userInfo = useSelector(state => state.auth.userInfo);
     const [logoutApiCall] = useLogoutMutation();
@@ -209,17 +211,25 @@ const Header = () => {
 
     return (
         <>
-            <header className="bg-white border-b border-gray-200">
+            <header className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-40">
                 <div className="mx-auto">
                     {/* Ana Menü */}
                     <div className="flex items-center justify-between h-16">
+                        {/* Mobil Menü Butonu */}
+                        <button
+                            className="lg:hidden pl-4"
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        >
+                            <Bars3Icon className="h-6 w-6 text-gray-700" />
+                        </button>
+
                         <div className="flex-shrink-0 pl-4">
                             <Link to="/">
                                 <img className="h-8 w-auto" src="/logo.png" alt="Logo" />
                             </Link>
                         </div>
 
-                        <nav className="flex-1 flex justify-center">
+                        <nav className="hidden lg:flex flex-1 justify-center">
                             <div className="flex items-center space-x-16 ml-32">
                                 {Object.keys(categories).map(key => (
                                     <div
@@ -236,8 +246,8 @@ const Header = () => {
                         </nav>
 
                         <div className="flex items-center space-x-6 pr-4">
-                            {/* Arama Çubuğu */}
-                            <div className="relative">
+                            {/* Arama Çubuğu - Desktop */}
+                            <div className="hidden lg:relative lg:block">
                                 <input
                                     type="text"
                                     placeholder="Ürün Ara"
@@ -288,7 +298,7 @@ const Header = () => {
                                             />
                                         </svg>
                                         {!userInfo && (
-                                            <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-black transition-colors">
+                                            <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-black transition-colors hidden lg:inline-block">
                                                 Oturum Aç
                                             </span>
                                         )}
@@ -366,32 +376,6 @@ const Header = () => {
                                                     </>
                                                 ) : (
                                                     <>
-                                                        <Menu.Item>
-                                                            {({ active }) => (
-                                                                <Link
-                                                                    to="/login"
-                                                                    className={`${active ? 'bg-gray-100' : ''} flex items-center px-4 py-2 text-sm text-gray-700`}
-                                                                >
-                                                                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
-                                                                    </svg>
-                                                                    Giriş Yap
-                                                                </Link>
-                                                            )}
-                                                        </Menu.Item>
-                                                        <Menu.Item>
-                                                            {({ active }) => (
-                                                                <Link
-                                                                    to="/register"
-                                                                    className={`${active ? 'bg-gray-100' : ''} flex items-center px-4 py-2 text-sm text-gray-700`}
-                                                                >
-                                                                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
-                                                                    </svg>
-                                                                    Kayıt Ol
-                                                                </Link>
-                                                            )}
-                                                        </Menu.Item>
                                                     </>
                                                 )}
                                             </div>
@@ -424,10 +408,192 @@ const Header = () => {
                         </div>
                     </div>
 
-                    {/* Mega Menü */}
+                    {/* Mobil Arama Çubuğu */}
+                    <div className="lg:hidden px-4 pb-4">
+                        <div className="relative">
+                            <input
+                                type="text"
+                                placeholder="Ürün Ara"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onKeyPress={(e) => {
+                                    if (e.key === 'Enter' && searchQuery.trim()) {
+                                        navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+                                        setIsMobileMenuOpen(false);
+                                    }
+                                }}
+                                className="w-full pl-10 pr-4 py-2 text-sm border-none rounded-full bg-gray-100 focus:bg-white focus:ring-2 focus:ring-black transition-all outline-none"
+                            />
+                            <div className="absolute left-3 top-1/2 -translate-y-1/2">
+                                <svg
+                                    className="w-5 h-5 text-gray-400"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                    />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Mobil Menü */}
+                    <div className={`lg:hidden fixed inset-0 z-50 ${isMobileMenuOpen ? '' : 'pointer-events-none'}`}>
+                        <div
+                            className={`fixed inset-0 bg-black transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-30' : 'opacity-0'
+                                }`}
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        />
+
+                        <div
+                            className={`fixed left-0 top-0 h-full w-80 bg-white shadow-xl transform transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+                                }`}
+                        >
+                            <div className="flex flex-col h-full">
+                                <div className="flex items-center justify-between p-4 border-b">
+                                    <h2 className="text-lg font-medium">Menü</h2>
+                                    <button
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        className="p-1 text-gray-400 hover:text-gray-500"
+                                    >
+                                        <XMarkIcon className="h-6 w-6" />
+                                    </button>
+                                </div>
+
+                                <div className="flex-1 overflow-y-auto">
+                                    <div className="py-2">
+                                        {Object.keys(categories).map(key => (
+                                            <div key={key} className="px-4">
+                                                <div className="border-b">
+                                                    <button
+                                                        className="flex items-center justify-between w-full py-2 text-left"
+                                                        onClick={() => setActiveMobileCategory(activeMobileCategory === key ? null : key)}
+                                                    >
+                                                        <span className="text-sm font-medium text-gray-900">
+                                                            {categories[key].title}
+                                                        </span>
+                                                        <svg
+                                                            className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${activeMobileCategory === key ? 'rotate-90' : ''}`}
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            viewBox="0 0 24 24"
+                                                        >
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                strokeWidth={2}
+                                                                d="M9 5l7 7-7 7"
+                                                            />
+                                                        </svg>
+                                                    </button>
+
+                                                    {/* Alt Kategoriler */}
+                                                    <div className={`overflow-hidden transition-all duration-300 ${activeMobileCategory === key ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                                                        {categories[key].sections.map((section, sectionIndex) => (
+                                                            <div key={sectionIndex} className="py-2 pl-4">
+                                                                <h3 className={`text-xs font-bold tracking-wide uppercase mb-2 ${section.isDiscount ? 'text-red-600' : 'text-gray-900'}`}>
+                                                                    {section.title}
+                                                                </h3>
+                                                                <ul className="space-y-1">
+                                                                    {section.items.map((item, itemIndex) => (
+                                                                        <li key={itemIndex}>
+                                                                            <Link
+                                                                                to={item.path}
+                                                                                className={`flex items-center text-sm py-1 ${item.isDiscount ? 'text-red-600' : 'text-gray-600'}`}
+                                                                                onClick={() => {
+                                                                                    setIsMobileMenuOpen(false);
+                                                                                    setActiveMobileCategory(null);
+                                                                                }}
+                                                                            >
+                                                                                {item.name}
+                                                                                {item.badge && (
+                                                                                    <span className="ml-2 px-2 py-0.5 text-xs bg-red-100 text-red-600 rounded-full">
+                                                                                        {item.badge}
+                                                                                    </span>
+                                                                                )}
+                                                                            </Link>
+                                                                        </li>
+                                                                    ))}
+                                                                </ul>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <div className="border-t py-2">
+                                        {!userInfo ? (
+                                            <>
+                                                <Link
+                                                    to="/login"
+                                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                    onClick={() => setIsMobileMenuOpen(false)}
+                                                >
+                                                    Giriş Yap
+                                                </Link>
+                                                <Link
+                                                    to="/register"
+                                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                    onClick={() => setIsMobileMenuOpen(false)}
+                                                >
+                                                    Kayıt Ol
+                                                </Link>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Link
+                                                    to="/account"
+                                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                    onClick={() => setIsMobileMenuOpen(false)}
+                                                >
+                                                    Hesabım
+                                                </Link>
+                                                {userInfo.isAdmin && (
+                                                    <>
+                                                        <Link
+                                                            to="/admin/dashboard"
+                                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                            onClick={() => setIsMobileMenuOpen(false)}
+                                                        >
+                                                            Admin Panel
+                                                        </Link>
+                                                        <Link
+                                                            to="/admin/discounts"
+                                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                            onClick={() => setIsMobileMenuOpen(false)}
+                                                        >
+                                                            İndirim Yönetimi
+                                                        </Link>
+                                                    </>
+                                                )}
+                                                <button
+                                                    onClick={() => {
+                                                        handleLogout();
+                                                        setIsMobileMenuOpen(false);
+                                                    }}
+                                                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                >
+                                                    Çıkış Yap
+                                                </button>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Mega Menü - Desktop */}
                     <div
                         ref={megaMenuRef}
-                        className={`absolute left-0 w-full bg-white shadow-lg border-t border-gray-200 z-50 transform transition-all duration-300 ease-in-out ${activeMenu ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
+                        className={`absolute left-0 w-full bg-white shadow-lg border-t border-gray-200 z-50 transform transition-all duration-300 ease-in-out hidden lg:block ${activeMenu ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
                             }`}
                     >
                         <div className="max-w-7xl mx-auto px-8 py-12">
@@ -466,6 +632,9 @@ const Header = () => {
                     </div>
                 </div>
             </header>
+
+            {/* Header'ın yüksekliği kadar boşluk bırak */}
+            <div className="h-16"></div>
 
             {/* Sepet Drawer */}
             <div className={`fixed inset-0 z-50 ${showCart ? '' : 'pointer-events-none'}`}>
